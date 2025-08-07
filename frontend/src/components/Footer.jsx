@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AppContext } from "../context/appContext.jsx";
 
 const Footer = () => {
-  const { footer } = useContext(AppContext);
+  const { footer } = useContext(AppContext); // Access the footer data from context
 
   return (
     <footer className="bg-gray-800 text-white p-6 rounded-md mt-10 text-center">

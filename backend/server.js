@@ -4,10 +4,14 @@ import cors from "cors";
 import dotenv from "dotenv";
 import componentRoutes from "./routes/componentRoute.js";
 
+// Initialize express app
 const app = express();
 
+// Middleware
 app.use(express.json());
 
+// CORS configuration
+// Allow all origins and methods for simplicity; adjust as needed for production
 app.use(
   cors({
     origin: "*",
@@ -16,13 +20,18 @@ app.use(
   })
 );
 
+// Middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
+
+// Load environment variables from .env file
 dotenv.config();
+
+// Import routes
 app.use("/api", componentRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-
+// Connect to MongoDB and start the server
 const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
@@ -36,4 +45,5 @@ const startServer = async () => {
   }
 };
 
+// Start the server
 startServer();

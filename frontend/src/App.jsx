@@ -10,8 +10,9 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 
 function App() {
-  const { setHeader, setNavbar, setFooter } = useContext(AppContext);
+  const { setHeader, setNavbar, setFooter } = useContext(AppContext); // Access the context setters
 
+  // Fetch data from the backend when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch("http://localhost:5000/api/components");

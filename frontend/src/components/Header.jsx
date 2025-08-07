@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import { AppContext } from "../context/appContext";
 
+// Header component to display the main title and an optional image
+// It uses the AppContext to get the header data
 const Header = () => {
-  const { header } = useContext(AppContext);
+  const { header } = useContext(AppContext); // Access the header data from context
 
   return (
     <header className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-10 px-4 text-center rounded-md shadow-lg  mb-4 -">

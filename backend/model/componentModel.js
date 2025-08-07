@@ -19,5 +19,7 @@ const ComponentSchema = new mongoose.Schema({
   },
 });
 
+// Create a model from the schema
+// This model will be used to interact with the 'components' collection in MongoDB
 const ComponentModel = mongoose.model("Component", ComponentSchema);
 export default ComponentModel;

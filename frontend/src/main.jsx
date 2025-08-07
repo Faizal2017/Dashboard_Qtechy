@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import AppProvider from "./context/appContext.jsx";
 import { BrowserRouter } from "react-router-dom";
 
+// Render the application
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
