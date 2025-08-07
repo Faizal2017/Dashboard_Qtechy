@@ -2,30 +2,37 @@ import { useContext, useState } from "react";
 import { AppContext } from "../context/appContext";
 
 const Dashboard = () => {
-  const { header, setHeader, navbar, setNavbar, footer, setFooter } = useContext(AppContext);
+  const { header, setHeader, navbar, setNavbar, footer, setFooter } =
+    useContext(AppContext);
   const [preview, setPreview] = useState(null); // For image preview
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    setPreview(URL.createObjectURL(file));
+  const file = e.target.files[0];
+  setPreview(URL.createObjectURL(file));
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "upload_preset"); // ← change this
-    formData.append("cloud_name", "Ydfs0m6tsd"); // ← change this
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "fez_upload"); // ✅ Must match exactly
 
-    try {
-      const res = await fetch(`https://api.cloudinary.com/v1_1/Ydfs0m6tsd/image/upload`, {
-        method: "POST",
-        body: formData,
-      });
+  try {
+    const res = await fetch("https://api.cloudinary.com/v1_1/dxibilbg9/image/upload", {
+      method: "POST",
+      body: formData,
+    });
 
-      const data = await res.json();
+    const data = await res.json();
+    console.log("Upload result:", data);
+
+    if (data.secure_url) {
       setHeader((prev) => ({ ...prev, imageUrl: data.secure_url }));
-    } catch (err) {
-      console.error("Image upload failed:", err);
+    } else {
+      console.error("Upload failed. No secure_url.");
     }
-  };
+  } catch (err) {
+    console.error("Image upload failed:", err);
+  }
+};
+
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg mt-10 space-y-6">
@@ -46,7 +53,9 @@ const Dashboard = () => {
       <div>
         <label className="block font-medium mb-1">Header Image</label>
         <input type="file" onChange={handleImageUpload} />
-        {preview && <img src={preview} alt="Preview" className="mt-2 max-h-40 rounded" />}
+        {preview && (
+          <img src={preview} alt="Preview" className="mt-2 max-h-40 rounded" />
+        )}
       </div>
 
       {/* Navbar Links */}
@@ -105,6 +114,20 @@ const Dashboard = () => {
           className="p-2 border rounded w-full"
         />
       </div>
+
+      <button
+        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        onClick={async () => {
+          await fetch("http://localhost:5000/api/components", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ header, navbar, footer }),
+          });
+          alert("Saved to database!");
+        }}
+      >
+        Save Changes
+      </button>
     </div>
   );
 };
